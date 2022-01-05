@@ -26,6 +26,8 @@ int main(int argc, char *argv[]) {
         renderer.line(glm::vec2(0.0), glm::vec2(0.7f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
         renderer.line(glm::vec2(0.0), glm::vec2(1.0f, -0.3f), glm::vec3(1.0f, 1.0f, 1.0f));
 
+        renderer.triangle(glm::vec2(0.0f, 0.0f), glm::vec2(0.5f, 0.0f), glm::vec2(0.0f, 0.5f), glm::vec3(0.2f, 0.5f, 1.0f));
+
         window.update();
     }
     return 0;

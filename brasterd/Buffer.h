@@ -7,8 +7,7 @@
 namespace brasterd {
 
     template<int ch, typename T>
-    class Buffer2D {
-    public:
+    struct Buffer2D {
         Buffer2D(glm::ivec2 size) {
             buffer = new T[ch * size.x * size.y];
             buffer_size = size;
@@ -45,12 +44,45 @@ namespace brasterd {
             }
         }
 
-    private:
         T *buffer;
         glm::ivec2 buffer_size;
-
-        friend class Window;
     };
 
+
+    template<int ch, typename T>
+    struct Buffer1D {
+        Buffer1D(int len) {
+            buffer = new T[ch * len];
+            buffer_size = len;
+        }
+
+        ~Buffer1D() {
+            delete[] buffer;
+        }
+
+        void resize();
+
+        T &operator[](int pos) {
+            return buffer[pos];
+        }
+
+        glm::vec<ch, T> &at(int pos) {
+            glm::vec<ch, T> *ptr = (glm::vec<ch, T> *) &buffer[pos * ch];
+            return *ptr;
+        }
+
+        int size() {
+            return buffer_size;
+        }
+
+        void clear(T what) {
+            for (int i = 0; i < buffer_size; i++) {
+                buffer[i] = what;
+            }
+        }
+
+        T *buffer;
+        int buffer_size;
+    };
 
 }
