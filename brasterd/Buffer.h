@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <string>
+#include <vector>
 
 
 namespace brasterd {
@@ -54,6 +55,16 @@ namespace brasterd {
         Buffer1D(int len) {
             buffer = new T[ch * len];
             buffer_size = len;
+        }
+
+        Buffer1D(std::initializer_list<T> initial_data) {
+            std::vector<T> data;
+            for (T t : initial_data) {
+                data.push_back(t);
+            }
+            buffer = new T[ch * data.size()];
+            std::memcpy(buffer, &data[0], sizeof(T) * data.size());
+            buffer_size = (int) data.size() / ch;
         }
 
         ~Buffer1D() {
