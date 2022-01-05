@@ -17,9 +17,14 @@ int main(int argc, char *argv[]) {
         window.poll_event();
 
         renderer.clear(glm::vec3(1.0f, 0.5f, 0.0f));
-        renderer.shade([](glm::vec2 uv) {
-            return glm::vec3(uv, 0.0f);
-        });
+        renderer.line(glm::vec2(0.0), glm::vec2(1.0f, 0.3f), glm::vec3(1.0f, 1.0f, 1.0f)); 
+        renderer.line(glm::vec2(0.0), glm::vec2(0.7f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+        renderer.line(glm::vec2(0.0), glm::vec2(-0.7f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+        renderer.line(glm::vec2(0.0), glm::vec2(-1.0f, 0.3f), glm::vec3(1.0f, 1.0f, 1.0f));
+        renderer.line(glm::vec2(0.0), glm::vec2(-1.0f, -0.3f), glm::vec3(1.0f, 1.0f, 1.0f));
+        renderer.line(glm::vec2(0.0), glm::vec2(-0.7f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+        renderer.line(glm::vec2(0.0), glm::vec2(0.7f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+        renderer.line(glm::vec2(0.0), glm::vec2(1.0f, -0.3f), glm::vec3(1.0f, 1.0f, 1.0f));
 
         window.update();
     }

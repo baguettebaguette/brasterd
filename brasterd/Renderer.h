@@ -31,7 +31,7 @@ namespace brasterd {
 
         glm::ivec2 discretize(glm::vec2 vec);
 
-        glm::ivec3 discretize(glm::vec3 vec);
+        glm::u8vec3 discretize(glm::vec3 vec);
 
         Buffer2D<3, unsigned char> *draw_buffer;
     };

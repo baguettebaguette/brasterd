@@ -35,13 +35,12 @@ namespace brasterd {
             return buffer_size;
         }
 
-        void clear(glm::vec3 color) {
-            glm::u8vec3 converted = color * 255.0f;
+        void clear(glm::vec<ch, T> what) {
             for (int y = 0; y < buffer_size.y; y++) {
                 for (int x = 0; x < buffer_size.x; x++) {
-                    buffer[(y * buffer_size.x + x) * ch + 0] = converted.x;
-                    buffer[(y * buffer_size.x + x) * ch + 1] = converted.y;
-                    buffer[(y * buffer_size.x + x) * ch + 2] = converted.z;
+                    for (int c = 0; c < ch; c++) {
+                        buffer[(y * buffer_size.x + x) * ch + c] = what[c];
+                    }
                 }
             }
         }
