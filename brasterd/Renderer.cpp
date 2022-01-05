@@ -11,6 +11,7 @@ brasterd::Renderer::~Renderer() {
 
 void brasterd::Renderer::bind_buffer(Buffer2D<3, unsigned char>& buffer) {
     target_buffer = &buffer;
+    depth_buffer.resize(buffer.size());
 }
 
 void brasterd::Renderer::clear(glm::vec3 color) {

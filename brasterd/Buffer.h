@@ -9,6 +9,11 @@ namespace brasterd {
 
     template<int ch, typename T>
     struct Buffer2D {
+        Buffer2D() {
+            buffer_size = glm::ivec2(0);
+            buffer = nullptr;
+        }
+
         Buffer2D(glm::ivec2 size) {
             buffer = new T[ch * size.x * size.y];
             buffer_size = size;
@@ -16,10 +21,36 @@ namespace brasterd {
         }
 
         ~Buffer2D() {
-            delete[] buffer;
+            if (buffer) {
+                delete[] buffer;
+            }
         }
 
-        void resize(glm::ivec2 new_size);
+        void resize(glm::ivec2 new_size) {
+            if (!buffer) {
+                buffer = new T[ch * new_size.x * new_size.y];
+                std::memset(buffer, 0, sizeof(T) * ch * new_size.x * new_size.y);
+                buffer_size = new_size;
+                return;
+            }
+
+            T *new_buffer = new T[ch * new_size.x * new_size.y];
+            // Naive resampling: just turn them into float & turn them BACK into ints. Aliasing LETS GO
+            for (int y = 0; y < new_size.y; y++) {
+                for (int x = 0; x < new_size.x; x++) {
+                    glm::vec2 sample_pos((float) y / new_size.y, x / new_size.x);
+                    glm::ivec2 sample_pos_discrete = glm::ivec2(sample_pos.x * size().x, sample_pos.y * size().y);
+                    
+                    for (int i = 0; i < ch; i++) {
+                        new_buffer[(y * new_size.x + x) * ch + i] = buffer[(sample_pos_discrete.y * size().x + x) * ch + i];
+                    }
+                    
+                }
+            }
+            delete[] buffer;
+            buffer = new_buffer;
+            buffer_size = new_size;
+        }
 
         T& at(int pos) {
             return buffer[pos];

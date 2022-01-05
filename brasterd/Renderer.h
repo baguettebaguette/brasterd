@@ -16,6 +16,10 @@ namespace brasterd {
         Points, Lines, Triangles
     };
 
+    struct RenderParams {
+        bool depth_test = false;
+    };
+
     class Renderer {
     public:
         Renderer();
@@ -203,6 +207,9 @@ namespace brasterd {
 
         }
 
+
+        RenderParams params;
+
     private:
         bool target_buffer_check();
 
@@ -211,6 +218,7 @@ namespace brasterd {
         glm::u8vec3 discretize(glm::vec3 vec);
 
         Buffer2D<3, unsigned char> *target_buffer;
+        Buffer2D<1, float> depth_buffer;
     };
 
 }

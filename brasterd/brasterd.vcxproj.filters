@@ -56,5 +56,8 @@
     <ClInclude Include="example_02_lines.h">
       <Filter>Fichiers sources\examples</Filter>
     </ClInclude>
+    <ClInclude Include="example_03_depth_test.h">
+      <Filter>Fichiers sources\examples</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
