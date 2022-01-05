@@ -50,6 +50,62 @@ namespace brasterd {
     };
 
 
+    template<int ch>
+    struct Attribs {
+        Attribs() {}
+
+        template<int ch2>
+        Attribs<ch>(Attribs<ch2> another) {
+            int min = glm::min(ch, ch2);
+            for (int i = 0; i < min; i++) {
+                data[i] = another.data[i];
+            }
+            for (int i = min; i < ch; i++) {
+                data[i] = 0.0f;
+            }
+        }
+
+        template<int ch2>
+        Attribs<ch>(glm::vec<ch2, float> another) {
+            int min = glm::min(ch, ch2);
+            for (int i = 0; i < min; i++) {
+                data[i] = another[i];
+            }
+            for (int i = min; i < ch; i++) {
+                data[i] = 0.0f;
+            }
+        }
+
+        ~Attribs() {}
+
+        template<typename T>
+        T &to(int offset) {
+            T *ptr = (T *) &data[offset];
+            return *ptr;
+        }
+
+        float data[ch];
+    };
+
+    template<int ch>
+    Attribs<ch> operator*(float constant, Attribs<ch> attr) {
+        Attribs<ch> ret_attr;
+        for (int i = 0; i < ch; i++) {
+            ret_attr.data[i] = constant * attr.data[i];
+        }
+        return ret_attr;
+    }
+
+    template<int ch>
+    Attribs<ch> operator+(Attribs<ch> a, Attribs<ch> b) {
+        Attribs<ch> ret_attr;
+        for (int i = 0; i < ch; i++) {
+            ret_attr.data[i] = a.data[i] + b.data[i];
+        }
+        return ret_attr;
+    }
+
+
     template<int ch, typename T>
     struct Buffer1D {
         Buffer1D(int len) {
@@ -77,8 +133,8 @@ namespace brasterd {
             return buffer[pos];
         }
 
-        glm::vec<ch, T> &at(int pos) {
-            glm::vec<ch, T> *ptr = (glm::vec<ch, T> *) &buffer[pos * ch];
+        Attribs<ch> &at(int pos) {
+            Attribs<ch> *ptr = (Attribs<ch> *) &buffer[pos * ch];
             return *ptr;
         }
 

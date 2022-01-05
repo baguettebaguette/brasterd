@@ -10,8 +10,8 @@ namespace brasterd {
     template<int v_ch_in, int v_ch_out, int f_ch_out = 4>
     class Shader {
     public:
-        Shader(std::function<glm::vec<v_ch_out, float>(glm::vec<v_ch_in, float>)> vertex_shader,
-            std::function<glm::vec<f_ch_out, float>(glm::vec<v_ch_out, float>)> fragment_shader) {
+        Shader(std::function<Attribs<v_ch_out>(Attribs<v_ch_in>)> vertex_shader,
+            std::function<Attribs<f_ch_out>(Attribs<v_ch_out>)> fragment_shader) {
             this->vertex_shader = vertex_shader;
             this->fragment_shader = fragment_shader;
         }
@@ -21,10 +21,12 @@ namespace brasterd {
         }
 
     private:
-        std::function<glm::vec<v_ch_out, float>(glm::vec<v_ch_in, float>)> vertex_shader;
-        std::function<glm::vec<f_ch_out, float>(glm::vec<v_ch_out, float>)> fragment_shader;
+        std::function<Attribs<v_ch_out>(Attribs<v_ch_in>)> vertex_shader;
+        std::function<Attribs<f_ch_out>(Attribs<v_ch_out>)> fragment_shader;
         friend class Renderer;
     };
+
+    
 
 }
 

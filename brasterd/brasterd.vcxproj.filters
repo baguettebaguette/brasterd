@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\examples">
+      <UniqueIdentifier>{d9d64f64-0c3d-434d-9109-fd3d21417cb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,6 +33,9 @@
     <ClCompile Include="C:\Users\42yea\libraries\glad\src\glad.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="examples.cpp">
+      <Filter>Fichiers sources\examples</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -43,6 +49,12 @@
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="example_01_triangle.h">
+      <Filter>Fichiers sources\examples</Filter>
+    </ClInclude>
+    <ClInclude Include="example_02_lines.h">
+      <Filter>Fichiers sources\examples</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

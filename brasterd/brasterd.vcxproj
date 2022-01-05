@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\42yea\libraries\glad\src\glad.c" />
+    <ClCompile Include="examples.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -150,6 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Buffer.h" />
+    <ClInclude Include="example_01_triangle.h" />
+    <ClInclude Include="example_02_lines.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="Window.h" />

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Buffer.h"
-#include <functional>
 #include <glm/glm.hpp>
+#include <functional>
 #include "Shader.h"
 #include "util.h"
 
@@ -28,10 +28,10 @@ namespace brasterd {
 
         // Renderer methods -
         template<int v_ch_in, int v_ch_out, int f_ch_out>
-        void point(glm::vec<v_ch_out, float> &vertex_data, Shader<v_ch_in, v_ch_out, f_ch_out> &shader, int point_size = 1) {
+        void point(Attribs<v_ch_out> &vertex_data, Shader<v_ch_in, v_ch_out, f_ch_out> &shader, int point_size = 1) {
             BRASTERD_TARGET_BUFFER_CHECK();
 
-            glm::vec2 pos(vertex_data);
+            glm::vec2 pos = vertex_data.to<glm::vec2>(0);
             glm::ivec2 half = glm::ivec2(point_size) / 2;
             glm::ivec2 d_pos_lb = discretize(pos) - half;
             glm::ivec2 d_pos_ub = discretize(pos) + half;
@@ -40,21 +40,22 @@ namespace brasterd {
                     if (!BRASTERD_BOUNDARY_CHECK(x, y)) {
                         continue;
                     }
-                    glm::vec<f_ch_out, float> color = shader.fragment_shader(vertex_data);
-                    target_buffer->at({ x, y }) = discretize(glm::vec3(color));
+                    Attribs<f_ch_out> color = shader.fragment_shader(vertex_data);
+                    target_buffer->at({ x, y }) = discretize(color.to<glm::vec3>(0));
                 }
             }
         }
 
         template<int v_ch_in, int v_ch_out, int f_ch_out>
-        void line(glm::vec<v_ch_out, float> f_a, glm::vec<v_ch_out, float> f_b, Shader<v_ch_in, v_ch_out, f_ch_out> &shader) {
+        void line(Attribs<v_ch_out> in_a, Attribs<v_ch_out> in_b, Shader<v_ch_in, v_ch_out, f_ch_out> &shader) {
             BRASTERD_TARGET_BUFFER_CHECK();
 
-            glm::ivec2 a = discretize(glm::vec2(f_a));
-            glm::ivec2 b = discretize(glm::vec2(f_b));
+            glm::ivec2 a = discretize(in_a.to<glm::vec2>(0));
+            glm::ivec2 b = discretize(in_b.to<glm::vec2>(0));
 
             int dx = b.x - a.x;
             int dy = b.y - a.y;
+            bool flip_ab = false;
             bool flip_xy = false;
             bool dec_y = false;
             if (glm::abs(dy) > glm::abs(dx)) {
@@ -67,6 +68,7 @@ namespace brasterd {
                 swap(a, b);
                 dx = -dx;
                 dy = -dy;
+                flip_ab = true;
             }
             if (a.y > b.y) {
                 dec_y = true;
@@ -78,8 +80,12 @@ namespace brasterd {
                 delta += dy;
 
                 float progress = ((float) (x - a.x)) / dx;
-                glm::vec<v_ch_out, float> interpolated = glm::mix(f_a, f_b, progress);
-                glm::u8vec3 color = discretize(glm::vec3(shader.fragment_shader(interpolated)));
+                if (flip_ab) {
+                    progress = 1.0f - progress;
+                }
+                Attribs<v_ch_out> interpolated = (1.0f - progress) * in_a + progress * in_b;
+                glm::u8vec3 color = discretize(shader.fragment_shader(interpolated).to<glm::vec3>(0));
+                
 
                 if (!dec_y) {
                     if (delta >= dx) {
@@ -110,12 +116,12 @@ namespace brasterd {
 
 
         template<int v_ch_in, int v_ch_out, int f_ch_out>
-        void triangle(glm::vec<v_ch_out, float> in_a, glm::vec<v_ch_out, float> in_b, glm::vec<v_ch_out, float> in_c, Shader<v_ch_in, v_ch_out, f_ch_out> &shader) {
+        void triangle(Attribs<v_ch_out> in_a, Attribs<v_ch_out> in_b, Attribs<v_ch_out> in_c, Shader<v_ch_in, v_ch_out, f_ch_out> &shader) {
             BRASTERD_TARGET_BUFFER_CHECK();
 
-            glm::vec2 f_a = glm::vec2(in_a);
-            glm::vec2 f_b = glm::vec2(in_b);
-            glm::vec2 f_c = glm::vec2(in_c);
+            glm::vec2 f_a = in_a.to<glm::vec2>(0);
+            glm::vec2 f_b = in_b.to<glm::vec2>(0);
+            glm::vec2 f_c = in_c.to<glm::vec2>(0);
 
             glm::ivec2 a = discretize(f_a);
             glm::ivec2 b = discretize(f_b);
@@ -144,13 +150,12 @@ namespace brasterd {
                         continue;
                     }
 
-                    glm::vec<v_ch_out, float> interpolated = u * in_c + v * in_b + w * in_a;
-                    glm::vec<f_ch_out, float> color = shader.fragment_shader(interpolated);
-                    target_buffer->at(glm::ivec2(x, y)) = discretize(glm::vec3(color));
+                    Attribs<v_ch_out> interpolated = u * in_c + v * in_b + w * in_a;
+                    glm::vec<3, float> color = shader.fragment_shader(interpolated).to<glm::vec<3, float>>(0);
+                    target_buffer->at(glm::ivec2(x, y)) = discretize(color);
                 }
             }
         }
-
 
         template<int ch, int v_ch_out, int f_ch_out>
         void draw_buffer(RenderMode mode, Buffer1D<ch, float> &buffer, Shader<ch, v_ch_out, f_ch_out> &shader) {
@@ -160,8 +165,8 @@ namespace brasterd {
             switch (mode) {
             case RenderMode::Points:
                 for (int i = 0; i < buffer.size(); i++) {
-                    glm::vec<ch, float> v_in = buffer.at(i);
-                    glm::vec<v_ch_out, float> v_out = shader.vertex_shader(v_in);
+                    Attribs<ch> v_in = buffer.at(i);
+                    Attribs<v_ch_out> v_out = shader.vertex_shader(v_in);
                     // TODO: Perspective divide
                     point(v_out, shader, 1);
                 }
@@ -169,10 +174,10 @@ namespace brasterd {
 
             case RenderMode::Lines:
                 for (int i = 0; i < buffer.size(); i += 2) {
-                    glm::vec<ch, float> v_in_0 = buffer.at(i);
-                    glm::vec<ch, float> v_in_1 = buffer.at(i + 1);
-                    glm::vec<v_ch_out, float> v_out_0 = shader.vertex_shader(v_in_0);
-                    glm::vec<v_ch_out, float> v_out_1 = shader.vertex_shader(v_in_1);
+                    Attribs<ch> v_in_0 = buffer.at(i);
+                    Attribs<ch> v_in_1 = buffer.at(i + 1);
+                    Attribs<v_ch_out> v_out_0 = shader.vertex_shader(v_in_0);
+                    Attribs<v_ch_out> v_out_1 = shader.vertex_shader(v_in_1);
 
                     // TODO: Perspective divide
                     line(v_out_0, v_out_1, shader);
@@ -183,12 +188,12 @@ namespace brasterd {
             case RenderMode::Triangles:
 
                 for (int i = 0; i < buffer.size(); i += 23) {
-                    glm::vec<ch, float> v_in_0 = buffer.at(i);
-                    glm::vec<ch, float> v_in_1 = buffer.at(i + 1);
-                    glm::vec<ch, float> v_in_2 = buffer.at(i + 2);
-                    glm::vec<v_ch_out, float> v_out_0 = shader.vertex_shader(v_in_0);
-                    glm::vec<v_ch_out, float> v_out_1 = shader.vertex_shader(v_in_1);
-                    glm::vec<v_ch_out, float> v_out_2 = shader.vertex_shader(v_in_2);
+                    Attribs<ch> v_in_0 = buffer.at(i);
+                    Attribs<ch> v_in_1 = buffer.at(i + 1);
+                    Attribs<ch> v_in_2 = buffer.at(i + 2);
+                    Attribs<v_ch_out> v_out_0 = shader.vertex_shader(v_in_0);
+                    Attribs<v_ch_out> v_out_1 = shader.vertex_shader(v_in_1);
+                    Attribs<v_ch_out> v_out_2 = shader.vertex_shader(v_in_2);
 
                     // TODO: Perspective divide
                     triangle(v_out_0, v_out_1, v_out_2, shader);

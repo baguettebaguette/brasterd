@@ -96,7 +96,6 @@ void brasterd::Window::update() {
         return;
     }
 
-
     glUseProgram(program);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
