@@ -18,6 +18,11 @@ void brasterd::Renderer::clear(glm::vec3 color) {
     BRASTERD_TARGET_BUFFER_CHECK();
 
     target_buffer->clear(discretize(color));
+    
+    // Depth test -
+    if (params.depth_test) {
+        depth_buffer.clear(glm::vec1(FLT_MAX));
+    }
 }
 
 bool brasterd::Renderer::target_buffer_check() {

@@ -35,15 +35,27 @@ namespace brasterd {
         void point(Attribs<v_ch_out> &vertex_data, Shader<v_ch_in, v_ch_out, f_ch_out> &shader, int point_size = 1) {
             BRASTERD_TARGET_BUFFER_CHECK();
 
-            glm::vec2 pos = vertex_data.to<glm::vec2>(0);
+            glm::vec4 pos = vertex_data.to<glm::vec4>(0);
+            glm::vec2 pos_xy = glm::vec2(pos);
+
             glm::ivec2 half = glm::ivec2(point_size) / 2;
-            glm::ivec2 d_pos_lb = discretize(pos) - half;
-            glm::ivec2 d_pos_ub = discretize(pos) + half;
+            glm::ivec2 d_pos_lb = discretize(pos_xy) - half;
+            glm::ivec2 d_pos_ub = discretize(pos_xy) + half;
             for (int y = d_pos_lb.y; y < d_pos_ub.y; y++) {
                 for (int x = d_pos_lb.x; x < d_pos_ub.x; x++) {
                     if (!BRASTERD_BOUNDARY_CHECK(x, y)) {
                         continue;
                     }
+
+                    // Depth test -
+                    if (params.depth_test) {
+                        if (depth_buffer.at(glm::ivec2(x, y))[0] < pos.z) {
+                            continue;
+                        }
+                        depth_buffer.at(glm::ivec2(x, y))[0] = pos.z;
+                    }
+                    
+                    // Actual render -
                     Attribs<f_ch_out> color = shader.fragment_shader(vertex_data);
                     target_buffer->at({ x, y }) = discretize(color.to<glm::vec3>(0));
                 }
@@ -88,8 +100,8 @@ namespace brasterd {
                     progress = 1.0f - progress;
                 }
                 Attribs<v_ch_out> interpolated = (1.0f - progress) * in_a + progress * in_b;
+                glm::vec4 pos = interpolated.to<glm::vec4>(0);
                 glm::u8vec3 color = discretize(shader.fragment_shader(interpolated).to<glm::vec3>(0));
-                
 
                 if (!dec_y) {
                     if (delta >= dx) {
@@ -107,11 +119,29 @@ namespace brasterd {
                     if (!BRASTERD_BOUNDARY_CHECK(y, x)) {
                         continue;
                     }
+                    // Depth test -
+                    if (params.depth_test) {
+                        if (depth_buffer.at(glm::ivec2(y, x))[0] < pos.z) {
+                            continue;
+                        }
+                        depth_buffer.at(glm::ivec2(y, x))[0] = pos.z;
+                    }
+
+                    // Actual render -
                     target_buffer->at(glm::ivec2(y, x)) = color;
                 } else {
                     if (!BRASTERD_BOUNDARY_CHECK(x, y)) {
                         continue;
                     }
+                    // Depth test -
+                    if (params.depth_test) {
+                        if (depth_buffer.at(glm::ivec2(x, y))[0] < pos.z) {
+                            continue;
+                        }
+                        depth_buffer.at(glm::ivec2(x, y))[0] = pos.z;
+                    }
+
+                    // Actual render -
                     target_buffer->at(glm::ivec2(x, y)) = color;
                 }
 
@@ -153,8 +183,17 @@ namespace brasterd {
                     if (w < 0.0f || w > 1.0f) {
                         continue;
                     }
-
                     Attribs<v_ch_out> interpolated = u * in_c + v * in_b + w * in_a;
+                    glm::vec4 pos = interpolated.to<glm::vec4>(0);
+                    // Depth test -
+                    if (params.depth_test) {
+                        if (depth_buffer.at(glm::ivec2(x, y))[0] < pos.z) {
+                            continue;
+                        }
+                        depth_buffer.at(glm::ivec2(x, y))[0] = pos.z;
+                    }
+
+                    // Actual render -
                     glm::vec<3, float> color = shader.fragment_shader(interpolated).to<glm::vec<3, float>>(0);
                     target_buffer->at(glm::ivec2(x, y)) = discretize(color);
                 }

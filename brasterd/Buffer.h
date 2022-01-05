@@ -52,13 +52,12 @@ namespace brasterd {
             buffer_size = new_size;
         }
 
-        T& at(int pos) {
+        T& operator[](int pos) {
             return buffer[pos];
         }
 
-        template<int ch = 3>
-        glm::vec<3, T>& at(glm::ivec2 pos) {
-            glm::vec<3, T> *ptr = (glm::vec<3, T> *) &(buffer[(pos.y * buffer_size.x + pos.x) * 3]);
+        glm::vec<ch, T> &at(glm::ivec2 pos) {
+            glm::vec<ch, T> *ptr = (glm::vec<ch, T> *) &(buffer[(pos.y * buffer_size.x + pos.x) * ch]);
             return *ptr;
         }
 
