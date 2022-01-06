@@ -18,6 +18,7 @@ namespace brasterd {
 
     struct RenderParams {
         bool depth_test = false;
+        int point_size = 1;
     };
 
     class Renderer {
@@ -214,7 +215,7 @@ namespace brasterd {
                     glm::vec4 &out_pos = v_out.to<glm::vec4>(0);
                     out_pos /= out_pos.w;
 
-                    point(v_out, shader, 1);
+                    point(v_out, shader, params.point_size);
                 }
                 break;
 

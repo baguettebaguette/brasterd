@@ -35,5 +35,6 @@ glm::ivec2 brasterd::Renderer::discretize(glm::vec2 vec) {
 }
 
 glm::u8vec3 brasterd::Renderer::discretize(glm::vec3 vec) {
+    vec = glm::clamp(vec, 0.0f, 1.0f);
     return glm::u8vec3(255.0f * vec.x, 255.0f * vec.y, 255.0f * vec.z);
 }

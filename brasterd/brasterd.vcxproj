@@ -155,6 +155,7 @@
     <ClInclude Include="example_02_lines.h" />
     <ClInclude Include="example_03_depth_test.h" />
     <ClInclude Include="example_04_spinning_cube.h" />
+    <ClInclude Include="example_05_lighting.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="Window.h" />
