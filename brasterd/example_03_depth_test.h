@@ -22,11 +22,7 @@ int main(int argc, char* argv[]) {
     brasterd::Buffer1D<6, float> triangles = {
         0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
         0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
         0.25f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-
-        0.25f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
     };
 
     brasterd::Shader<6, 7> shader([](brasterd::Attribs<6> attr_in) {
@@ -43,7 +39,7 @@ int main(int argc, char* argv[]) {
         window.poll_event();
 
         renderer.clear(glm::vec3(1.0f, 0.5f, 0.0f));
-        renderer.draw_buffer(brasterd::RenderMode::Lines, triangles, shader);
+        renderer.draw_buffer(brasterd::RenderMode::Triangles, triangles, shader);
 
         window.update();
     }

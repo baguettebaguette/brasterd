@@ -7,7 +7,7 @@
 #include "util.h"
 
 #define BRASTERD_TARGET_BUFFER_CHECK() if (!target_buffer_check()) { return; }
-#define BRASTERD_BOUNDARY_CHECK(x, y) (x >= 0 && y >= 0 && x < target_buffer->size().x && y < target_buffer->size().y)
+#define BRASTERD_BOUNDARY_CHECK(X, Y) ((X) >= 0 && (Y) >= 0 && ((X) < target_buffer->size().x) && ((Y) < target_buffer->size().y))
 
 
 namespace brasterd {
@@ -180,7 +180,7 @@ namespace brasterd {
                     float u = glm::cross(ab, ad).z / s;
                     float v = glm::cross(ad, ac).z / s;
                     float w = 1.0f - u - v;
-                    if (w < 0.0f || w > 1.0f) {
+                    if (w < 0.0f || w > 1.0f || u < 0.0f || u > 1.0f || v < 0.0f || v > 1.0f) {
                         continue;
                     }
                     Attribs<v_ch_out> interpolated = u * in_c + v * in_b + w * in_a;
