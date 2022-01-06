@@ -77,8 +77,9 @@ int main(int argc, char* argv[]) {
     glm::vec3 camera_pos = glm::vec3(0.0f);
     glm::vec3 light_pos = glm::vec3(0.0f, 2.0f, 0.0f);
     glm::vec3 ambient_light_color = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 diffuse_light_color = glm::vec3(1.0f, 0.5f, 0.0f);
-    glm::vec3 specular_light_color = glm::vec3(1.0f);
+    glm::vec3 diffuse_light_color = glm::vec3(1.0f);
+    glm::vec3 specular_light_color = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 object_color = glm::vec3(1.0f, 0.5f, 0.0f);
 
     // vec4<out_pos 4, modeled_pos 3, normal 3>
     brasterd::Shader<6, 10> shader([&](brasterd::Attribs<6> in_attr) {
@@ -93,16 +94,18 @@ int main(int argc, char* argv[]) {
         glm::vec3 normal = glm::vec4(in_attr.to<glm::vec3>(7), 0.0f);
         glm::vec3 light_dir = glm::normalize(light_pos - pos);
         glm::vec3 eye_dir = glm::normalize(camera_pos - pos);
-        glm::vec3 reflected = glm::reflect(-light_dir, normal);
+        glm::vec3 reflected = glm::normalize(glm::reflect(-eye_dir, normal));
 
         // Lighting calculation!
         float ambient = 0.1f;
         float diffuse = glm::min(1.0f, glm::max(0.0f, glm::dot(light_dir, normal)));
-        float specular = glm::pow(glm::min(1.0f, glm::max(0.0f, glm::dot(reflected, eye_dir))), 10.0f) * 0.6f;
+        float specular = glm::pow(glm::min(1.0f, glm::max(0.0f, glm::dot(light_dir, reflected))), 32.0f) * 0.6f;
 
-        return glm::vec4(ambient * ambient_light_color +
+        return glm::vec4((ambient * ambient_light_color +
             diffuse * diffuse_light_color + 
-            specular * specular_light_color, 1.0f);
+            specular * specular_light_color) *
+            object_color, 
+            1.0f);
     });
 
     // Render the light -
@@ -120,9 +123,9 @@ int main(int argc, char* argv[]) {
     while (!window.should_close()) {
         window.poll_event();
 
-        camera_pos = glm::vec3(5.0f * sinf(window.clock() * 0.5f), 2.0f + 3.0f * (sinf(window.clock()) * 0.5f + 0.5f), -5.0f * cosf(window.clock() * 0.5f));
+        camera_pos = glm::vec3(5.0f * sinf(window.clock() * 0.5f), 1.5f + 1.0f * (sinf(window.clock()) * 0.5f + 0.5f), -5.0f * cosf(window.clock() * 0.5f));
         view = glm::lookAt(camera_pos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        light_pos = glm::vec3(1.0f * cosf(window.clock()), 1.0f + 0.5f * (sinf(window.clock()) * 0.5f + 0.5f), 1.0f * sinf(window.clock()));
+        light_pos = glm::vec3(1.5f * cosf(window.clock()), 0.6f + 0.5f * (sinf(window.clock()) * 0.5f + 0.5f), 1.5f * sinf(window.clock()));
         light_buf.at(0).to<glm::vec3>(0) = light_pos;
 
         float now = window.clock();

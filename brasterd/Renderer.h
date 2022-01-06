@@ -3,6 +3,7 @@
 #include "Buffer.h"
 #include <glm/glm.hpp>
 #include <functional>
+#include <thread>
 #include "Shader.h"
 #include "util.h"
 
@@ -20,6 +21,7 @@ namespace brasterd {
         bool depth_test = false;
         int point_size = 1;
     };
+
 
     class Renderer {
     public:
@@ -235,7 +237,6 @@ namespace brasterd {
 
 
             case RenderMode::Triangles:
-
                 for (int i = 0; i < buffer.size(); i += 3) {
                     Attribs<ch> v_in_0 = buffer.at(i);
                     Attribs<ch> v_in_1 = buffer.at(i + 1);
