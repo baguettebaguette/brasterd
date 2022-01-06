@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[]) {
     glm::ivec2 screen_size(1280, 720);
-    brasterd::Window window("brasterd is awesome!", screen_size);
+    brasterd::Window window("brasterd: triangle!", screen_size);
     brasterd::Buffer2D<3, unsigned char> screen_buf(screen_size);
     window.set_display_buffer(screen_buf);
 

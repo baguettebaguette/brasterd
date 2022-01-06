@@ -10,7 +10,7 @@
 
 
 int main(int argc, char* argv[]) {
-    brasterd::Window window("brasterd: Depth Test", glm::ivec2(1280, 720));
+    brasterd::Window window("brasterd: depth test", glm::ivec2(1280, 720));
 
     brasterd::Buffer2D<3, unsigned char> screen_buf(glm::ivec2(1280, 720));
     window.set_display_buffer(screen_buf);
@@ -23,6 +23,10 @@ int main(int argc, char* argv[]) {
         0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
         0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
         0.25f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+
+        0.15f, 0.15f, 0.1f, 0.0f, 0.0f, 1.0f,
+        0.65f, 0.15f, 0.1f, 0.0f, 0.0f, 1.0f,
+        0.4f, 0.65f, 0.1f, 0.0f, 0.0f, 1.0f,
     };
 
     brasterd::Shader<6, 7> shader([](brasterd::Attribs<6> attr_in) {
@@ -38,7 +42,7 @@ int main(int argc, char* argv[]) {
     while (!window.should_close()) {
         window.poll_event();
 
-        renderer.clear(glm::vec3(1.0f, 0.5f, 0.0f));
+        renderer.clear(glm::vec3(1.0f, 1.0f, 1.0f));
         renderer.draw_buffer(brasterd::RenderMode::Triangles, triangles, shader);
 
         window.update();

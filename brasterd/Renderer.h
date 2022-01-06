@@ -230,7 +230,7 @@ namespace brasterd {
 
             case RenderMode::Triangles:
 
-                for (int i = 0; i < buffer.size(); i += 23) {
+                for (int i = 0; i < buffer.size(); i += 3) {
                     Attribs<ch> v_in_0 = buffer.at(i);
                     Attribs<ch> v_in_1 = buffer.at(i + 1);
                     Attribs<ch> v_in_2 = buffer.at(i + 2);
