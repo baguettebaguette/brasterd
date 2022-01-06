@@ -210,7 +210,10 @@ namespace brasterd {
                 for (int i = 0; i < buffer.size(); i++) {
                     Attribs<ch> v_in = buffer.at(i);
                     Attribs<v_ch_out> v_out = shader.vertex_shader(v_in);
-                    // TODO: Perspective divide
+                    
+                    glm::vec4 &out_pos = v_out.to<glm::vec4>(0);
+                    out_pos /= out_pos.w;
+
                     point(v_out, shader, 1);
                 }
                 break;
@@ -222,7 +225,9 @@ namespace brasterd {
                     Attribs<v_ch_out> v_out_0 = shader.vertex_shader(v_in_0);
                     Attribs<v_ch_out> v_out_1 = shader.vertex_shader(v_in_1);
 
-                    // TODO: Perspective divide
+                    v_out_0.to<glm::vec4>(0) /= v_out_0.to<float>(3);
+                    v_out_1.to<glm::vec4>(0) /= v_out_1.to<float>(3);
+
                     line(v_out_0, v_out_1, shader);
                 }
                 break;
@@ -238,7 +243,10 @@ namespace brasterd {
                     Attribs<v_ch_out> v_out_1 = shader.vertex_shader(v_in_1);
                     Attribs<v_ch_out> v_out_2 = shader.vertex_shader(v_in_2);
 
-                    // TODO: Perspective divide
+                    v_out_0.to<glm::vec4>(0) /= v_out_0.to<float>(3);
+                    v_out_1.to<glm::vec4>(0) /= v_out_1.to<float>(3);
+                    v_out_2.to<glm::vec4>(0) /= v_out_2.to<float>(3);
+
                     triangle(v_out_0, v_out_1, v_out_2, shader);
                 }
                 break;

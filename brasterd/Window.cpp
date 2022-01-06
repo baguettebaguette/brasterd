@@ -116,6 +116,14 @@ void brasterd::Window::poll_event() {
     glfwPollEvents();
 }
 
+glm::ivec2 brasterd::Window::size() {
+    return window_size;
+}
+
+float brasterd::Window::clock() {
+    return (float) glfwGetTime();
+}
+
 GLuint brasterd::Window::compile(GLuint shader_type, const char* src) {
     GLuint shader = glCreateShader(shader_type);
     glShaderSource(shader, 1, &src, nullptr);

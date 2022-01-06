@@ -29,6 +29,8 @@ namespace brasterd {
 
         void set_title(std::string new_title);
 
+        float clock();
+
     private:
         GLuint compile(GLuint shader_type, const char *src);
 
