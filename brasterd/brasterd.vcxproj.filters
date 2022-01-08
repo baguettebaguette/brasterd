@@ -36,6 +36,12 @@
     <ClCompile Include="examples.cpp">
       <Filter>Fichiers sources\examples</Filter>
     </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler2D.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -64,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="example_05_lighting.h">
       <Filter>Fichiers sources\examples</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler2D.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

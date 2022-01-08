@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Buffer.h"
+#include <iostream>
+
 
 namespace brasterd {
 
@@ -9,5 +12,7 @@ namespace brasterd {
         a = b;
         b = tmp;
     }
+
+    Buffer2D<4, float> read_image(std::string path);
 
 }
