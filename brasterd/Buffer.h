@@ -84,6 +84,8 @@ namespace brasterd {
             }
         }
 
+        void buffer_data(const void *ptr, int offset, int size);
+
         T *buffer;
         glm::ivec2 buffer_size;
     };
@@ -193,6 +195,10 @@ namespace brasterd {
             for (int i = 0; i < buffer_size; i++) {
                 buffer[i] = what;
             }
+        }
+
+        void buffer_data(const void *ptr, int offset, int size) {
+            std::memcpy(&buffer[offset], ptr, size);
         }
 
         T *buffer;

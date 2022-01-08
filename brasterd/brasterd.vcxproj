@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\42yea\libraries\stb;C:\Users\42yea\libraries\glad\include;C:\Users\42yea\libraries\glm;C:\Users\42yea\libraries\glfw-3.3.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\42yea\libraries\tinyobjloader;C:\Users\42yea\libraries\stb;C:\Users\42yea\libraries\glad\include;C:\Users\42yea\libraries\glm;C:\Users\42yea\libraries\glfw-3.3.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +159,7 @@
     <ClInclude Include="example_04_spinning_cube.h" />
     <ClInclude Include="example_05_lighting.h" />
     <ClInclude Include="example_06_texture.h" />
+    <ClInclude Include="example_07_model_texture.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Sampler2D.h" />
     <ClInclude Include="util.h" />

@@ -77,5 +77,8 @@
     <ClInclude Include="example_06_texture.h">
       <Filter>Fichiers sources\examples</Filter>
     </ClInclude>
+    <ClInclude Include="example_07_model_texture.h">
+      <Filter>Fichiers sources\examples</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
