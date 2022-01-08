@@ -28,7 +28,9 @@ It's not done yet, but if you want to build it anyways, go ahead! You will need 
 
 ![Suzanne](img/suzanne.png)
 
+(That's how the actual model looks like, by the way. It's not a rendering artifact, I just sucks at Blender.)
+
 ## The framerate is terrible!
 
 It is, that's because it's a _software_ renderer. Maybe I will add some kind of concurrency in the future, but it is not my major concern now. There's still a lot to be done, for example framebuffer & alpha compositing.
- 
+
