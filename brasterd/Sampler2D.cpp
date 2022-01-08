@@ -7,7 +7,7 @@ brasterd::Sampler2D::Sampler2D(Buffer2D<4, float>& buffer) : buffer(buffer) {
 brasterd::Sampler2D::~Sampler2D() {
 }
 
-glm::vec4& brasterd::Sampler2D::at(glm::vec2 pos) {
+glm::vec4 brasterd::Sampler2D::at(glm::vec2 pos) {
     if (pos.x < 0.0f || pos.x > 1.0f) {
         switch (params.wrap_s) {
         case Repeat:
@@ -56,15 +56,14 @@ glm::vec4& brasterd::Sampler2D::at(glm::vec2 pos) {
         glm::vec4 d = at_buffer(u + glm::ivec2(1, 1));
         glm::vec2 f = glm::fract(unnormalized);
 
-        ret = glm::mix(glm::mix(a, b, f.x), glm::mix(c, d, f.x), f.y);
+        return glm::mix(glm::mix(a, b, f.x), glm::mix(c, d, f.x), f.y);
         break;
 
     case Nearest:
         glm::ivec2 nearest = glm::round(unnormalized);
-        ret = at_buffer(nearest);
-        break;
+        return at_buffer(nearest);
     }
-    return ret;
+    return params.border_color;
 }
 
 glm::vec4 brasterd::Sampler2D::at_buffer(glm::ivec2 pos) {

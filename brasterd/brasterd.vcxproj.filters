@@ -74,5 +74,8 @@
     <ClInclude Include="Sampler2D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="example_06_texture.h">
+      <Filter>Fichiers sources\examples</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -30,7 +30,7 @@ namespace brasterd {
 
         ~Sampler2D();
 
-        glm::vec4 &at(glm::vec2 pos);
+        glm::vec4 at(glm::vec2 pos);
 
         SamplerParams params;
 

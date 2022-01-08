@@ -20,6 +20,15 @@ namespace brasterd {
             std::memset(buffer, 0, sizeof(T) * ch * size.x * size.y);
         }
 
+        Buffer2D(Buffer2D &&that) {
+            // Move pointer to prevent double-free
+            // Maybe use std::shared_ptr to let them manage instead?
+            // Nope, fuck that
+            this->buffer = that.buffer;
+            this->buffer_size = that.buffer_size;
+            that.buffer = nullptr;
+        }
+
         ~Buffer2D() {
             if (buffer) {
                 delete[] buffer;
@@ -153,8 +162,16 @@ namespace brasterd {
             buffer_size = (int) data.size() / ch;
         }
 
+        Buffer1D(Buffer1D&& that) {
+            buffer = that.buffer;
+            buffer_size = that.buffer_size;
+            that.buffer = nullptr;
+        }
+
         ~Buffer1D() {
-            delete[] buffer;
+            if (buffer) {
+                delete[] buffer;
+            }
         }
 
         void resize();
