@@ -30,6 +30,7 @@ int main(int argc, char* argv[]) {
 
     brasterd::Buffer2D<4, float> image = brasterd::read_image("img/avatar.png");
     brasterd::Sampler2D texture(image);
+    texture.params.filter = brasterd::Linear;
 
     brasterd::Shader<3, 4> shader([](brasterd::Attribs<3> in_attr) {
         brasterd::Attribs<4> out;
@@ -41,11 +42,11 @@ int main(int argc, char* argv[]) {
         return sampled;
     });
 
+    renderer.clear(glm::vec3(0.0f, 0.0f, 0.0f));
+    renderer.draw_buffer(brasterd::RenderMode::Triangles, rect, shader);
+
     while (!window.should_close()) {
         window.poll_event();
-        
-        renderer.clear(glm::vec3(0.0f, 0.0f, 0.0f));
-        renderer.draw_buffer(brasterd::RenderMode::Triangles, rect, shader);
 
         window.update();
     }

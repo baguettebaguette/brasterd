@@ -44,7 +44,7 @@ glm::vec4 brasterd::Sampler2D::at(glm::vec2 pos) {
             return params.border_color;
         }
     }
-    glm::vec2 unnormalized = glm::ivec2(pos.x * buffer.size().x, pos.y * buffer.size().y);
+    glm::vec2 unnormalized = glm::vec2(pos.x * buffer.size().x, pos.y * buffer.size().y);
     glm::vec4 ret(1.0f);
     switch (params.filter) {
     case Linear:
