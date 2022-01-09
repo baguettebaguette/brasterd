@@ -1,19 +1,18 @@
 #pragma once
 
 
-#ifdef EXAMPLE_04_SPINNING_CUBE
+#ifdef EXAMPLE_08_FRAMEBUFFER
 
+#include <glm/gtc/matrix_transform.hpp>
 #include "Window.h"
 #include "Buffer.h"
-#include "Renderer.h"
 #include "Shader.h"
-#include <glm/gtc/matrix_transform.hpp>
+#include "Renderer.h"
 
-
+// Framebuffer is an emergent(?) property of Renderer & Buffer2D. So I don't think we need
+// anything new.
 int main(int argc, char* argv[]) {
-    brasterd::Window window("brasterd: spinning cube", glm::ivec2(1280, 720));
-    brasterd::Buffer2D<3, unsigned char> canvas(glm::ivec2(1280, 720));
-    window.set_display_buffer(canvas);
+    brasterd::Window window("brasterd: framebuffer", glm::ivec2(1280, 720));
 
     brasterd::Buffer1D<3, float> cube({
         -0.5f, -0.5f, -0.5f,
@@ -58,39 +57,31 @@ int main(int argc, char* argv[]) {
         0.5f, 0.5f, 0.5f,
         0.5f, 0.5f, -0.5f,
     });
-
-    brasterd::Renderer renderer;
-    renderer.bind_buffer(canvas);
-
-    float delta_time = 0.0f;
-    float prev_instant = window.clock();
-
-    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 1.0f, -5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::mat4 perspective = glm::perspective(glm::radians(45.0f), 1280.0f / 720, 0.01f, 100.0f);
+    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 perspective = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.01f, 100.0f);
 
     brasterd::Shader<3, 4> shader([&](brasterd::Attribs<3> in_attr) {
         brasterd::Attribs<4> out;
-        glm::mat4 rot = glm::rotate(glm::mat4(1.0f), prev_instant, glm::vec3(0.0f, 1.0f, 0.0f));
-        out.to<glm::vec4>(0) = perspective * view * rot * glm::vec4(in_attr.to<glm::vec3>(0), 1.0f);
+        out.to<glm::vec4>(0) = perspective * view * glm::vec4(in_attr.to<glm::vec3>(0), 1.0f);
         return out;
     }, [](brasterd::Attribs<4> in_attr) {
-        return glm::vec4(1.0f, 0.5f, 0.0f, 1.0f);
+        return glm::vec4(0.3f, 0.3f, 0.3f, 1.0f);
     });
+
+    brasterd::Buffer2D<3, unsigned char> screen_buf(glm::ivec2(1280, 720));
+    window.set_display_buffer(screen_buf);
+    brasterd::Renderer renderer;
+    renderer.bind_buffer(screen_buf);
+    renderer.params.depth_test = true;
 
     while (!window.should_close()) {
         window.poll_events();
-
-        float now = window.clock();
-        delta_time = now - prev_instant;
-        prev_instant = now;
-
-        renderer.clear(glm::vec3(1.0f, 1.0f, 1.0f));
+        view = glm::lookAt(glm::vec3(5.0f * sinf(window.clock()), 0.1f, 5.0f * cosf(window.clock())), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        renderer.clear(glm::vec3(0.0f));
         renderer.draw_buffer(brasterd::RenderMode::Triangles, cube, shader);
-
         window.update();
     }
-
-    return 0;
 }
 
 #endif
+

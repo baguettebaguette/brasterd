@@ -160,6 +160,7 @@
     <ClInclude Include="example_05_lighting.h" />
     <ClInclude Include="example_06_texture.h" />
     <ClInclude Include="example_07_model_texture.h" />
+    <ClInclude Include="example_08_framebuffer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Sampler2D.h" />
     <ClInclude Include="util.h" />

@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     renderer.draw_buffer(brasterd::RenderMode::Triangles, rect, shader);
 
     while (!window.should_close()) {
-        window.poll_event();
+        window.poll_events();
 
         window.update();
     }

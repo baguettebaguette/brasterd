@@ -80,5 +80,8 @@
     <ClInclude Include="example_07_model_texture.h">
       <Filter>Fichiers sources\examples</Filter>
     </ClInclude>
+    <ClInclude Include="example_08_framebuffer.h">
+      <Filter>Fichiers sources\examples</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

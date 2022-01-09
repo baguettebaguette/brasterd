@@ -112,7 +112,7 @@ void brasterd::Window::update() {
     glfwSwapBuffers(window);
 }
 
-void brasterd::Window::poll_event() {
+void brasterd::Window::poll_events() {
     glfwPollEvents();
 }
 

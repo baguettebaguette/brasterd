@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
     });
 
     while (!window.should_close()) {
-        window.poll_event();
+        window.poll_events();
 
         camera_pos = glm::vec3(5.0f * sinf(window.clock() * 0.5f), 1.5f + 1.0f * (sinf(window.clock()) * 0.5f + 0.5f), -5.0f * cosf(window.clock() * 0.5f));
         view = glm::lookAt(camera_pos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));

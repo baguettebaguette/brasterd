@@ -21,7 +21,7 @@ namespace brasterd {
 
         void update();
 
-        void poll_event();
+        void poll_events();
 
         glm::ivec2 size();
 

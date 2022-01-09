@@ -32,7 +32,7 @@ namespace brasterd {
         void bind_buffer(Buffer2D<3, unsigned char> &buffer);
 
         void clear(glm::vec3 color);
-
+        
         // Renderer methods -
         template<int v_ch_in, int v_ch_out, int f_ch_out>
         void point(Attribs<v_ch_out> &vertex_data, Shader<v_ch_in, v_ch_out, f_ch_out> &shader, int point_size = 1) {
@@ -150,7 +150,6 @@ namespace brasterd {
 
             }
         }
-
 
         template<int v_ch_in, int v_ch_out, int f_ch_out>
         void triangle(Attribs<v_ch_out> in_a, Attribs<v_ch_out> in_b, Attribs<v_ch_out> in_c, Shader<v_ch_in, v_ch_out, f_ch_out> &shader) {

@@ -80,7 +80,7 @@ int main(int argc, char* argv) {
     });
 
     while (!window.should_close()) {
-        window.poll_event();
+        window.poll_events();
 
         view = glm::lookAt(glm::vec3(4.0f * sinf(window.clock()), 0.0f, 4.0f * cosf(window.clock())), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 

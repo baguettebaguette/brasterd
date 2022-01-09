@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     });
 
     while (!window.should_close()) {
-        window.poll_event();
+        window.poll_events();
 
         renderer.clear(glm::vec3(1.0f, 1.0f, 1.0f));
         renderer.draw_buffer(brasterd::RenderMode::Triangles, triangles, shader);

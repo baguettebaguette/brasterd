@@ -26,7 +26,7 @@ It's not done yet, but if you want to build it anyways, go ahead! You will need 
 
 - 3D model & texture (~2fps)
 
-![Suzanne](img/suzanne.png)
+![Suzanne](img/suzanne.gif)
 
 (That's how the actual model looks like, by the way. It's not a rendering artifact, I just sucks at Blender.)
 

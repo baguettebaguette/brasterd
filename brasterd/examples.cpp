@@ -6,7 +6,8 @@
 // #define EXAMPLE_04_SPINNING_CUBE
 // #define EXAMPLE_05_LIGHTING
 // #define EXAMPLE_06_TEXTURE
-#define EXAMPLE_07_MODEL_TEXTURE
+// #define EXAMPLE_07_MODEL_TEXTURE
+#define EXAMPLE_08_FRAMEBUFFER
 
 
 #include "example_01_triangle.h"
@@ -16,3 +17,4 @@
 #include "example_05_lighting.h"
 #include "example_06_texture.h"
 #include "example_07_model_texture.h"
+#include "example_08_framebuffer.h"
