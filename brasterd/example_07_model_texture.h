@@ -24,7 +24,7 @@ int main(int argc, char* argv) {
     brasterd::Window window("brasterd: textured model", glm::ivec2(1280, 720));
 
     brasterd::Buffer2D<4, float> image = brasterd::read_image("models/suzanne/suzanne.png");
-    brasterd::Sampler2D suzanne_texture(image);
+    brasterd::Sampler2D<4, float> suzanne_texture(image);
 
     // Read model using tinyobjloader. I am not implementing an obj reader.
     tinyobj::ObjReader reader;

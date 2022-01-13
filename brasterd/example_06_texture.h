@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     };
 
     brasterd::Buffer2D<4, float> image = brasterd::read_image("img/avatar.png");
-    brasterd::Sampler2D texture(image);
+    brasterd::Sampler2D<4, float> texture(image);
     texture.params.filter = brasterd::Linear;
 
     brasterd::Shader<3, 4> shader([](brasterd::Attribs<3> in_attr) {

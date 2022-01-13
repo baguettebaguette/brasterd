@@ -93,7 +93,7 @@ namespace brasterd {
 
     template<int ch>
     struct Attribs {
-        Attribs() {}
+        Attribs() : data() {}
 
         template<int ch2>
         Attribs<ch>(Attribs<ch2> another) {
