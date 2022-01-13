@@ -12,9 +12,9 @@ It's not done yet, but if you want to build it anyways, go ahead! You will need 
 
 ## Showcase
 
-- Initial screenshot
+- Dragon
 
-![Initial screenshot](img/screenshot.png)
+![Here be dragons](img/dragon.png)
 
 - Phong lighting (~10fps)
 

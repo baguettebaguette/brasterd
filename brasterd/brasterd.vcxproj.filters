@@ -83,5 +83,8 @@
     <ClInclude Include="example_08_framebuffer.h">
       <Filter>Fichiers sources\examples</Filter>
     </ClInclude>
+    <ClInclude Include="example_11_dragon.h">
+      <Filter>Fichiers sources\examples</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
