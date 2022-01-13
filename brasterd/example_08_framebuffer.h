@@ -34,8 +34,12 @@ int main(int argc, char* argv[]) {
         return out;
     }, [&](brasterd::Attribs<4> in_attr) {
         glm::vec2 uv = in_attr.to<glm::vec2>(0) * 0.5f + 0.5f;
-        glm::vec3 inverted = 1.0f - glm::vec3(texture.at(uv));
-        return glm::vec4(inverted, 1.0f);
+        glm::vec4 sampled = texture.at(uv);
+
+        float r = sinf(window.clock() * 2.0f) * 0.5f + 0.5f;
+        float g = sinf(window.clock() * 3.0f + glm::pi<float>() / 4.0f) * 0.5f + 0.5f;
+        float b = cosf(window.clock() * 4.0f) * 0.5f + 0.5f;
+        return glm::vec4(r * sampled.r, g * sampled.g, b * sampled.b, 1.0f);
     });
     brasterd::Buffer2D<3, unsigned char> framebuffer(glm::ivec2(100, 100));
     brasterd::Renderer fb_renderer;
