@@ -6,7 +6,7 @@ Not to be confused with [bastard](https://en.wiktionary.org/wiki/bastard), which
 
 ## Introduction
 
-Brasterd is a software rasterizer currently I am currently working on.
+Brasterd is a software rasterizer I am currently working on.
 
 It's not done yet, but if you want to build it anyways, go ahead! You will need [glad](https://glad.dav1d.de/), [glfw](https://www.glfw.org/), [stb_image](https://github.com/nothings/stb) & [glm](https://github.com/g-truc/glm). And to build example 07, you will also need [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader).
 
